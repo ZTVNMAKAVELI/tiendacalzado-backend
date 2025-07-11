@@ -1,6 +1,5 @@
 package upc.backend.opensource.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference; // <-- AÑADE ESTA IMPORTACIÓN
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -32,7 +31,6 @@ public class Producto {
     // Este campo NO se incluirá en la serialización JSON cuando se acceda desde el padre,
     // evitando así el bucle infinito. Sin embargo, el objeto Categoria sí se mostrará
     // con su ID y nombre, lo cual es perfecto para la lista de productos.
-    @JsonBackReference // <-- AÑADE ESTA ANOTACIÓN
     // @ManyToOne: Define una relación de "muchos a uno". Muchos productos pueden pertenecer a una categoría.
     // @JoinColumn: Especifica la columna de clave foránea (Foreign Key) en la tabla "productos".
     @ManyToOne(fetch = FetchType.EAGER) // EAGER: Carga la categoría junto con el producto.

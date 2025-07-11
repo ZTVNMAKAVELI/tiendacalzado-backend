@@ -2,15 +2,17 @@ package upc.backend.opensource.config;
 
 import upc.backend.opensource.model.Categoria;
 import upc.backend.opensource.model.Producto;
+import upc.backend.opensource.model.Role;
 import upc.backend.opensource.repository.CategoriaRepository;
 import upc.backend.opensource.repository.ProductoRepository;
+import upc.backend.opensource.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
-@Component // Le dice a Spring que gestione esta clase como un Bean.
+@Component // Bean.
 public class DataInitializer implements CommandLineRunner {
 
     @Autowired // Inyectamos los repositorios para poder guardar datos en la BD.
@@ -19,9 +21,26 @@ public class DataInitializer implements CommandLineRunner {
     @Autowired
     private ProductoRepository productoRepository;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     @Override
     public void run(String... args) throws Exception {
         // Esta lógica se ejecutará una vez que la aplicación inicie.
+
+        // --- INICIALIZAR ROLES ---
+        // Verificamos si ya hay roles para no duplicarlos
+        if (roleRepository.count() == 0) {
+            System.out.println("Creando roles iniciales...");
+            Role userRole = new Role();
+            userRole.setName("ROLE_USER");
+            roleRepository.save(userRole);
+
+            Role adminRole = new Role();
+            adminRole.setName("ROLE_ADMIN");
+            roleRepository.save(adminRole);
+            System.out.println("Roles creados.");
+        }
 
         // Verificamos si ya hay categorías para no duplicar los datos en cada reinicio.
         if (categoriaRepository.count() == 0) {
@@ -38,7 +57,7 @@ public class DataInitializer implements CommandLineRunner {
             casual.setNombre("Casual");
 
             // Guardamos las categorías en la base de datos.
-            // Es importante guardarlas primero para que obtengan un ID.
+
             categoriaRepository.saveAll(Arrays.asList(deportivo, formal, casual));
 
             // --- 2. CREAR PRODUCTOS ---

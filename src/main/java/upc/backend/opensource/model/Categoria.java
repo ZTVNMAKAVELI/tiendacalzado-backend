@@ -1,6 +1,6 @@
 package upc.backend.opensource.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference; // <-- AÑADE ESTA IMPORTACIÓN
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.List;
@@ -20,7 +20,7 @@ public class Categoria {
     // @JsonManagedReference: Es el lado "padre" de la relación.
     // Se serializará normalmente (mostrará la lista de productos).
     // Esta anotación es la clave para romper el bucle.
-    @JsonManagedReference // <-- AÑADE ESTA ANOTACIÓN
+    @JsonIgnore // <-- REEMPLAZA @JsonManagedReference CON ESTO
     // @OneToMany: Define una relación de "uno a muchos". Una categoría puede tener muchos productos.
     // mappedBy="categoria": Indica que la relación es gestionada por el campo "categoria" en la clase Producto.
     // cascade=CascadeType.ALL: Si se elimina una categoría, se eliminarán todos sus productos asociados.
