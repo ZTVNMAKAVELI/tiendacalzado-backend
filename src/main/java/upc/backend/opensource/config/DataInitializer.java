@@ -3,14 +3,18 @@ package upc.backend.opensource.config;
 import upc.backend.opensource.model.Categoria;
 import upc.backend.opensource.model.Producto;
 import upc.backend.opensource.model.Role;
+import upc.backend.opensource.model.User;
 import upc.backend.opensource.repository.CategoriaRepository;
 import upc.backend.opensource.repository.ProductoRepository;
 import upc.backend.opensource.repository.RoleRepository;
+import upc.backend.opensource.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Set;
 
 @Component // Bean.
 public class DataInitializer implements CommandLineRunner {
@@ -20,6 +24,12 @@ public class DataInitializer implements CommandLineRunner {
 
     @Autowired
     private ProductoRepository productoRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder encoder;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -40,6 +50,23 @@ public class DataInitializer implements CommandLineRunner {
             adminRole.setName("ROLE_ADMIN");
             roleRepository.save(adminRole);
             System.out.println("Roles creados.");
+        }
+
+        // --- INICIALIZAR USUARIO ADMIN POR DEFECTO ---
+        if (userRepository.count() == 0) {
+            System.out.println("Creando usuario ADMIN por defecto...");
+            Role adminRole = roleRepository.findByName("ROLE_ADMIN")
+                    .orElseThrow(() -> new RuntimeException("Error: Rol ADMIN no encontrado."));
+
+            User adminUser = new User(
+                    "Administrador",
+                    "admin@bananitos.com",
+                    encoder.encode("admin123") // ¡Importante encriptar la contraseña!
+            );
+
+            adminUser.setRoles(Set.of(adminRole));
+            userRepository.save(adminUser);
+            System.out.println("Usuario ADMIN creado. Usuario: admin, Contraseña: admin123");
         }
 
         // Verificamos si ya hay categorías para no duplicar los datos en cada reinicio.

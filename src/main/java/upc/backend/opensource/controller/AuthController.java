@@ -52,7 +52,7 @@ public class AuthController {
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
@@ -64,17 +64,17 @@ public class AuthController {
 
         return ResponseEntity.ok(new JwtResponse(jwt,
                 userDetails.getId(),
-                userDetails.getUsername(),
+                userDetails.getName(),
                 userDetails.getEmail(),
                 roles));
     }
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody SignupRequest signUpRequest) {
         // Validación 1: ¿El nombre de usuario ya existe?
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: ¡El nombre de usuario ya está en uso!"));
+                    .body(new MessageResponse("Error: ¡El correo electrónico ya está en uso!"));
         }
 
         // Validación 2: ¿El email ya existe?
@@ -85,7 +85,7 @@ public class AuthController {
         }
 
         // Si las validaciones pasan, creamos el nuevo usuario
-        User user = new User(signUpRequest.getUsername(),
+        User user = new User(signUpRequest.getName(),
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword())); // Encriptamos la contraseña
 
