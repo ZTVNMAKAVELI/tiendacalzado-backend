@@ -47,7 +47,7 @@ public class AuthController {
     @Autowired
     JwtUtils jwtUtils;
 
-    // --- NUEVO MÉTODO DE LOGIN ---
+    // --- LOGIN ---
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
 
@@ -70,14 +70,14 @@ public class AuthController {
     }
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody SignupRequest signUpRequest) {
-        // Validación 1: ¿El nombre de usuario ya existe?
+        // Validación 1: nombre de usuario
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: ¡El correo electrónico ya está en uso!"));
         }
 
-        // Validación 2: ¿El email ya existe?
+        // Validación 2: email
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()

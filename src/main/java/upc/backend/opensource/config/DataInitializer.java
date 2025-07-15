@@ -16,10 +16,10 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.Set;
 
-@Component // Bean.
+@Component
 public class DataInitializer implements CommandLineRunner {
 
-    @Autowired // Inyectamos los repositorios para poder guardar datos en la BD.
+    @Autowired
     private CategoriaRepository categoriaRepository;
 
     @Autowired
@@ -36,7 +36,6 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Esta lógica se ejecutará una vez que la aplicación inicie.
 
         // --- INICIALIZAR ROLES ---
         // Verificamos si ya hay roles para no duplicarlos

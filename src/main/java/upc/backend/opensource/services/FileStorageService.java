@@ -22,14 +22,13 @@ public class FileStorageService {
                 Files.createDirectories(uploadPath);
             }
 
-            // Genera un nombre de archivo único para evitar colisiones
             String fileName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
             Path filePath = uploadPath.resolve(fileName);
             Files.copy(file.getInputStream(), filePath);
 
             return fileName;
         } catch (IOException ex) {
-            throw new RuntimeException("No se pudo almacenar el archivo. ¡Por favor, inténtelo de nuevo!", ex);
+            throw new RuntimeException("No se pudo almacenar el archivo", ex);
         }
     }
 }

@@ -23,7 +23,7 @@ public class FileController {
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
         String fileName = fileStorageService.storeFile(file);
 
-        // Construye la URL completa para acceder al archivo
+        // URL completa para acceder al archivo
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/uploads/")
                 .path(fileName)

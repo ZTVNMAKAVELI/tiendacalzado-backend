@@ -31,7 +31,7 @@ public class ProductoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Endpoint para CREAR un nuevo producto
+    // Endpoint CREAR nuevo producto
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Producto> createProducto(@RequestBody Producto producto) {
@@ -40,7 +40,7 @@ public class ProductoController {
         return ResponseEntity.ok(nuevoProducto);
     }
 
-    // Endpoint para ACTUALIZAR un producto existente
+    // Endpoint ACTUALIZAR producto
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Producto> updateProducto(@PathVariable Long id, @RequestBody Producto productoDetails) {
@@ -58,7 +58,7 @@ public class ProductoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Endpoint para ELIMINAR un producto
+    // Endpoint ELIMINAR producto
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteProducto(@PathVariable Long id) {
