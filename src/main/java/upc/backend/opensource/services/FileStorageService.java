@@ -1,8 +1,6 @@
 package upc.backend.opensource.services;
 
-import com.google.cloud.storage.BlobId;
-import com.google.cloud.storage.BlobInfo;
-import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -36,6 +34,7 @@ public class FileStorageService {
 
             // Sube el archivo al bucket de Google Cloud Storage
             storage.create(blobInfo, file.getBytes());
+            storage.createAcl(blobId, Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER));
 
             return fileName;
 
