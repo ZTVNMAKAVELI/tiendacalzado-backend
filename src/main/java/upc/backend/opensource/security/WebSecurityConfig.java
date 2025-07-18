@@ -64,6 +64,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/productos/**").permitAll()
                         .requestMatchers("/api/orders/**").authenticated() // 3. Hacemos explícito que /orders requiere autenticación
                         .requestMatchers("/uploads/**").permitAll()
+                        .requestMatchers("/api/files/upload").permitAll() // para fines de pruebas y entrega  del trabajo
                         .anyRequest().authenticated()
                 );
 
