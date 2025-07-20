@@ -62,9 +62,8 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/productos/**").permitAll()
-                        .requestMatchers("/api/orders/**").authenticated() // 3. Hacemos explícito que /orders requiere autenticación
+                        .requestMatchers("/api/orders/**").authenticated()
                         .requestMatchers("/uploads/**").permitAll()
-                        .requestMatchers("/api/files/upload").permitAll() // para fines de pruebas y entrega  del trabajo
                         .anyRequest().authenticated()
                 );
 
