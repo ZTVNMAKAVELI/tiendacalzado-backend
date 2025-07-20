@@ -4,7 +4,7 @@ import upc.backend.opensource.services.FileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,7 +22,7 @@ public class FileController {
     private String bucketName;
 
     @PostMapping("/upload")
-    @PreAuthorize("hasRole('ADMIN')")
+    @RolesAllowed("ADMIN")
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
         String fileName = fileStorageService.storeFile(file);
 

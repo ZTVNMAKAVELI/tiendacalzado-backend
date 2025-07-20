@@ -24,7 +24,7 @@ import upc.backend.opensource.security.services.UserDetailsServiceImpl;
 import java.util.Arrays;
 
 @Configuration
-@EnableMethodSecurity
+@EnableMethodSecurity(jsr250Enabled = true)
 public class WebSecurityConfig {
 
     @Autowired
